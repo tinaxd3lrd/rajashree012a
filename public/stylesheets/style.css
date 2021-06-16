@@ -1,0 +1,10 @@
+#alert_wrapper {
+    display: none;
+}
+
+#alert_wrapper .alert {
+    margin-bottom: 10px;
+}
+#user_wrapper .user-item {
+
+}

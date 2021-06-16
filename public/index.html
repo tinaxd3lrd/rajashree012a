@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>T2M</title>
+
+
+    <script src="javascripts/common/jquery-1.9.1.min.js"></script>
+
+
+    <script src="javascripts/common/json.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--[if IE]>
+    <script src="javascripts/common/socket.io.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+    <link href="stylesheets/style.css" rel="stylesheet" media="screen">
+    <script src="javascripts/im/im.js"></script>
+    <script src="javascripts/index.js"></script>
+
+</head>
+<body>
+
+<div class='container' style="width:220px;padding-top:50px;">
+
+    <h1>T2M</h1>
+
+    <div id='alert_wrapper'></div>
+
+    <ul id='user_wrapper' class="nav nav-pills nav-stacked">
+    </ul>
+
+
+    <div><p id="message"></p></div>
+
+
+    <button id="connect"/>Connect</button>
+    <button id="disconnect">Disconnect</button>
+    <button id="send"/>Send Message</button>
+
+</div>
+
+
+</body>
+</html>
