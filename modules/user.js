@@ -32,8 +32,6 @@ User.prototype.save = function save(callback) {
 };
 
 User.get = function get(username, callback) {
-
-
     mongodb(function (db) {
         db.collection('users', function (err, collection) {
             if (err) {
@@ -79,11 +77,30 @@ User.removeByCon = function removeByCon(condition , callback) {
             if (err) {
                 throw new Error(err);
             }
-            collection.remove(condition , function (err, result) {
+            collection.remove(condition , function (err) {
                 if(err) {
                     throw new Error(err);
                 }
-                callback(err, result);
+                callback(err);
+            });
+
+        });
+    });
+};
+
+
+User.update = function update(condition , objNew , callback) {
+    mongodb(function (db) {
+        // 读取 users collection
+        db.collection('users', function (err, collection) {
+            if (err) {
+                throw new Error(err);
+            }
+            collection.update(condition , {$set: objNew} , function (err) {
+                if(err) {
+                    throw new Error(err);
+                }
+                callback(err);
             });
 
         });

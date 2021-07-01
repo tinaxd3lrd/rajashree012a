@@ -22,7 +22,20 @@ function connect() {
         socket.on('message', function (data) {
             var jsonData = JSON.parse(data);
             var userList = jsonData.onlineUsers;
-            updateUserList(userList);
+
+            console.log(jsonData);
+
+            if(userList) {
+                updateUserList(userList);
+            } else if(jsonData.editName) {
+                  if(jsonData.result == 'success') {
+                      $('#user_name').html(jsonData.editName);
+                      $('#my_name').hide();
+                  }
+            } else if (jsonData.action == 'talk') {
+                $('#' + jsonData.fromSocketId + " a").trigger("click");
+            }
+
 //          message(data);
         });
         socket.on('connect', function () {
@@ -61,10 +74,14 @@ function updateUserList(userList) {
         var uHtml = "";
         for (var i = 0; i < userList.length; i++) {
             var user = userList[i];
-            uHtml += "<li id='"+ user.socketId +"'><a href='javascript:void(0);'>" + user.name + "</a></li>";
-        }
 
+            if(socket.socket.sessionid != user.socketId) {
+                uHtml += "<li id='"+ user.socketId +"'class='user-li'><a href='javascript:void(0);'>" + user.name + "</a></li>";
+            }
+        }
         $('#user_wrapper').html(uHtml);
+        bindUserListEvent();
+
     }
 }
 
@@ -74,6 +91,9 @@ function updateStatus(code, txt) {
 
     if (code == STATUS_CODE_SUCCESS) {
         alertClass = "alert-success";
+
+        $('#my_profile').html("<span id='user_name'>" + socket.socket.sessionid + "</span><i class='icon-edit pull-right'></i>");
+
     } else if (code == STATUS_CODE_ERROR) {
         alertClass = "alert-error";
     } else {
@@ -83,16 +103,39 @@ function updateStatus(code, txt) {
     $('#alert_wrapper').append('<div class="alert alert-' + code + '" >'
         + '<button type="button" class="close" data-dismiss="alert">&times;</button>'
         + txt + '</div>').show();
+
+
+
 }
 
 function esc(msg) {
     return msg.replace(/</g, '<').replace(/>/g, '>');
 }
 
-function send() {
-    socket.send("Hello Server!");
+function send(msg) {
+    socket.send(msg);
 }
 
-function rename(newname) {
-    socket.send('{"rename" : "' + newname + '" }')
+function editName(name) {
+    var editNameCmd = {"action" : "editName" , "targetName" : name};
+    send(JSON.stringify(editNameCmd));
+//    send('{"editName":' + '"' + name +'"}');
+}
+
+
+function bindUserListEvent() {
+
+    $('#user_wrapper li a').click(function() {
+
+        $('#user_wrapper .active').removeClass("active");
+
+        $('#dialog').show();
+        $('#dialog .close ').click(function() {
+            $('#user_wrapper .active').removeClass("active");
+            $('#dialog').hide();
+        });
+
+        $(this).parents("li").addClass("active");
+        $('#dialog_talker').html($(this).html());
+    });
 }

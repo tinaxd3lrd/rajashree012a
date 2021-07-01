@@ -22,6 +22,21 @@ $(function() {
 
     connect();
 
+    $('#submit_name').click(function() {
+        editName($('#profile_name').val());
+    });
+
+    $('#submit_msg').click(function() {
+        var sendMsgJson = {"action" : "talk" , "msgData" :  $('#dialog_input').val() , "targetSocketId" :  $('#user_wrapper .active').attr('id')}
+        send(JSON.stringify(sendMsgJson));
+    })
+
+//    $('#user_wrapper').live("click" ,function() {
+//        alert("xxx");
+//          $('#dialog').show();
+//    });
+
+
     /*
     $('.rename').click(function() {
         $(this).
