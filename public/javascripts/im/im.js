@@ -25,15 +25,26 @@ function connect() {
 
             console.log(jsonData);
 
-            if(userList) {
+            if (userList) {
                 updateUserList(userList);
-            } else if(jsonData.editName) {
-                  if(jsonData.result == 'success') {
-                      $('#user_name').html(jsonData.editName);
-                      $('#my_name').hide();
-                  }
+            } else if (jsonData.editName) {
+                if (jsonData.result == 'success') {
+                    $('#user_name').html(jsonData.editName);
+                    $('#my_name').hide();
+                }
             } else if (jsonData.action == 'talk') {
                 $('#' + jsonData.fromSocketId + " a").trigger("click");
+
+                $('#diaglog_content_container').append('<div class="webim-dia-box"> '
+                    + '<div class="msg-content msg-content-l">'
+                    + jsonData.msgData
+                    + '</div>'
+                    + '<div class="msg-arr msg-arr-l"></div>'
+                    + '</div>'
+                    + '<div class="clearfix"></div>');
+
+                var offsetTop =   $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3 ;
+                $('#dialog_content').scrollTop(offsetTop);
             }
 
 //          message(data);
@@ -75,8 +86,8 @@ function updateUserList(userList) {
         for (var i = 0; i < userList.length; i++) {
             var user = userList[i];
 
-            if(socket.socket.sessionid != user.socketId) {
-                uHtml += "<li id='"+ user.socketId +"'class='user-li'><a href='javascript:void(0);'>" + user.name + "</a></li>";
+            if (socket.socket.sessionid != user.socketId) {
+                uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + "</a></li>";
             }
         }
         $('#user_wrapper').html(uHtml);
@@ -105,7 +116,6 @@ function updateStatus(code, txt) {
         + txt + '</div>').show();
 
 
-
 }
 
 function esc(msg) {
@@ -117,7 +127,7 @@ function send(msg) {
 }
 
 function editName(name) {
-    var editNameCmd = {"action" : "editName" , "targetName" : name};
+    var editNameCmd = {"action": "editName", "targetName": name};
     send(JSON.stringify(editNameCmd));
 //    send('{"editName":' + '"' + name +'"}');
 }
@@ -125,12 +135,12 @@ function editName(name) {
 
 function bindUserListEvent() {
 
-    $('#user_wrapper li a').click(function() {
+    $('#user_wrapper li a').click(function () {
 
         $('#user_wrapper .active').removeClass("active");
 
         $('#dialog').show();
-        $('#dialog .close ').click(function() {
+        $('#dialog .close ').click(function () {
             $('#user_wrapper .active').removeClass("active");
             $('#dialog').hide();
         });
