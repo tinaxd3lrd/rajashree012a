@@ -99,7 +99,7 @@ server = http.createServer(function (req, res) {
     }
 });
 
-server.listen(8080);
+server.listen(80);
 
 
 var io = require('socket.io').listen(server);
@@ -137,7 +137,7 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('disconnect', function () {
         User.removeByCon({"socketId": socket.id}, function (err, result) {
-            console.log("[User.removeByCon result] : " + result);
+            synchronizeOnlineUser();
         })
     });
 
