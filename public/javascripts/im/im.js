@@ -23,7 +23,7 @@ function connect() {
             var jsonData = JSON.parse(data);
             var userList = jsonData.onlineUsers;
 
-            console.log(jsonData);
+//            console.log(jsonData);
 
             if (userList) {
                 updateUserList(userList);
@@ -33,7 +33,9 @@ function connect() {
                     $('#my_name').hide();
                 }
             } else if (jsonData.action == 'talk') {
-                $('#' + jsonData.fromSocketId + " a").trigger("click");
+
+                /*
+                $('#' + jsonData.fromSocketId + " a").trigger("click", "trigger");
 
                 $('#diaglog_content_container').append('<div class="webim-dia-box"> '
                     + '<div class="msg-content msg-content-l">'
@@ -43,8 +45,28 @@ function connect() {
                     + '</div>'
                     + '<div class="clearfix"></div>');
 
-                var offsetTop =   $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3 ;
+                var offsetTop = $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3;
                 $('#dialog_content').scrollTop(offsetTop);
+                */
+                // TODO:修改为新消息加入到对应的窗口，并弹出对应的提示信息
+                //<span class='badge badge-info'>1</span>
+
+                var fromUserName = $("#"+jsonData.fromSocketId + " a").html();
+
+                var msg;
+                msg = $.globalMessenger().post({
+                    message: fromUserName ,
+                    type: 'info',
+                    showCloseButton: true,
+                    actions: {
+                        cancel: {
+                            label: 'cancel launch',
+                            action: function() {
+                              console.log('action...');
+                            }
+                        }
+                    }
+                });
             }
 
 //          message(data);
@@ -87,7 +109,7 @@ function updateUserList(userList) {
             var user = userList[i];
 
             if (socket.socket.sessionid != user.socketId) {
-                uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + "</a></li>";
+                uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + " </a></li>";
             }
         }
         $('#user_wrapper').html(uHtml);
@@ -135,7 +157,22 @@ function editName(name) {
 
 function bindUserListEvent() {
 
-    $('#user_wrapper li a').click(function () {
+    $('#user_wrapper li a').click(function (e) {
+
+        $('#multiple_user_con').append('<li class="active"><a>'+$(this).html()+'</a></li>');
+
+        if(true) {
+             return;
+        }
+
+        $('span',$(this)).remove();
+        if (e['isTrigger']) {
+          return;
+        }else {
+            //$('#diaglog_content_container').html("");
+
+
+        }
 
         $('#user_wrapper .active').removeClass("active");
 

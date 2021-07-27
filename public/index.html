@@ -20,6 +20,11 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- messenger -->
+    <link href="hubspot/css/messenger.css" rel="stylesheet" media="screen">
+    <link href="hubspot/css/messenger-theme-future.css" rel="stylesheet" media="screen">
+    <script src="hubspot/js/messenger.min.js"></script>
+
 
     <link href="stylesheets/style.css" rel="stylesheet" media="screen">
     <script src="javascripts/im/im.js"></script>
@@ -27,6 +32,24 @@
 
 </head>
 <body>
+
+<!-- 聊天对话窗口区域-->
+<div class="well well-small affix " style="bottom:0px;right:100px;height: 350px;width:300px">
+
+    <div  class="header-wraper pull-left" >
+        <ul class="nav nav-tabs nav-stacked" style="margin: 0;" id="multiple_user_con">
+            <li><a>1</a></li>
+            <li><a>1</a></li>
+            <li class="active"><a>1</a></li>
+        </ul>
+    </div>
+
+    <div class="well well-small pull-left" id="multiple_dialog_con">
+        <div id="dialog_content">xxxxxxxxxxxxx</div>
+        <div>yyyyyyyyyyyy</div>
+    </div>
+
+</div>
 
 <div class='container  ' style="width:220px;padding-top:50px;">
 
@@ -89,7 +112,7 @@
         -->
 
     </div>
- </div>
+</div>
 
 </body>
 </html>

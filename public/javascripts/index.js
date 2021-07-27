@@ -27,7 +27,7 @@ $(function() {
     });
 
     $('#submit_msg').click(function() {
-        var sendMsgJson = {"action" : "talk" , "msgData" :  $('#dialog_input').val() , "targetSocketId" :  $('#user_wrapper .active').attr('id')}
+        var sendMsgJson = {"action" : "talk" , "msgData" :  $('#dialog_input').val() , "targetSocketId" :  $('#user_wrapper .active').attr('id')  }
         send(JSON.stringify(sendMsgJson));
 
         $('#diaglog_content_container').append('<div class="webim-dia-box"> '
