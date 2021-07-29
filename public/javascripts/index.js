@@ -27,10 +27,13 @@ $(function() {
     });
 
     $('#submit_msg').click(function() {
-        var sendMsgJson = {"action" : "talk" , "msgData" :  $('#dialog_input').val() , "targetSocketId" :  $('#user_wrapper .active').attr('id')  }
+
+        var targetSid =  $('#multiple_user_con .active').attr('id').split('_')[1];
+        var sendMsgJson = {"action" : "talk" , "msgData" :  $('#dialog_input').val() , "targetSocketId" : targetSid   }
         send(JSON.stringify(sendMsgJson));
 
-        $('#diaglog_content_container').append('<div class="webim-dia-box"> '
+        console.log('targetSid : ' + targetSid);
+        $('#dialog_'+targetSid).append('<div class="webim-dia-box"> '
             + '<div class="msg-content msg-content-r">'
             +  $('#dialog_input').val()
             + '</div>'

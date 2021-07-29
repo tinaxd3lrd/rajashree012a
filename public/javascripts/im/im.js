@@ -34,6 +34,22 @@ function connect() {
                 }
             } else if (jsonData.action == 'talk') {
 
+
+                talk2One(jsonData.fromSocketId ,  jsonData.fromSocketId) ;
+
+                $('#dialog_'+jsonData.fromSocketId).append('<div class="webim-dia-box"> '
+                    + '<div class="msg-content msg-content-l">'
+                    + jsonData.msgData
+                    + '</div>'
+                    + '<div class="msg-arr msg-arr-l"></div>'
+                   + '</div>'
+                    + '<div class="clearfix">'
+                    +'</div>');
+
+                // TODO：滚动条位置待处理
+                var offsetTop = $('#multiple_dialog_con').height() - $('.msg-content:last').height() * 1.3;
+                $('#dialog_'+jsonData.fromSocketId).scrollTop(offsetTop);
+
                 /*
                 $('#' + jsonData.fromSocketId + " a").trigger("click", "trigger");
 
@@ -50,9 +66,8 @@ function connect() {
                 */
                 // TODO:修改为新消息加入到对应的窗口，并弹出对应的提示信息
                 //<span class='badge badge-info'>1</span>
-
+                 /*
                 var fromUserName = $("#"+jsonData.fromSocketId + " a").html();
-
                 var msg;
                 msg = $.globalMessenger().post({
                     message: fromUserName ,
@@ -67,6 +82,7 @@ function connect() {
                         }
                     }
                 });
+                */
             }
 
 //          message(data);
@@ -110,6 +126,10 @@ function updateUserList(userList) {
 
             if (socket.socket.sessionid != user.socketId) {
                 uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + " </a></li>";
+
+                if($('#header_'+user.socketId).length == 1) {
+                    $('#header_'+user.socketId).html('<a>'+user.name+'</a>');
+                }
             }
         }
         $('#user_wrapper').html(uHtml);
@@ -154,12 +174,43 @@ function editName(name) {
 //    send('{"editName":' + '"' + name +'"}');
 }
 
+function talk2One(sid , userName) {
+
+    $('.active' , $('#multiple_user_con')).removeClass('active');
+    $('.active' , $('#multiple_dialog_con')).removeClass('active');
+
+    /*
+    * 左侧头像栏
+    * */
+    if($('#header_'+ sid).length == 1) {
+        $('#header_'+ sid).addClass("active");
+    }else {
+        $('#multiple_user_con').append('<li class="active" id="header_'+sid+'"><a>'+userName+'</a></li>');
+
+        // 左侧头像点击事件
+        $('#header_'+ sid).click(function() {
+            talk2One(sid ,userName ) ;
+        })
+    }
+
+    /*
+    * 右侧聊天内容栏
+    * */
+    if($('#dialog_'+ sid).length == 1) {
+        $('#dialog_'+ sid).addClass("active");
+    }else {
+        $('#multiple_dialog_con').append('<div id="dialog_'+sid+'" class="webim-wrapper active"></div>');
+    }
+
+ }
 
 function bindUserListEvent() {
 
     $('#user_wrapper li a').click(function (e) {
 
-        $('#multiple_user_con').append('<li class="active"><a>'+$(this).html()+'</a></li>');
+        var sid = $(this).parent('li').attr('id');
+        talk2One(sid , $(this).html());
+
 
         if(true) {
              return;
