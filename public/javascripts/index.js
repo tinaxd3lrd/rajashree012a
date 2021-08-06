@@ -44,8 +44,12 @@ $(function() {
         $('#dialog_input').val('');
 
 //        var winDivHeight = $('#dialog_content').height();
-        var offsetTop =   $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3 ;
-        $('#dialog_content').scrollTop(offsetTop);
+//        var offsetTop =   $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3 ;
+//        $('#dialog_content').scrollTop(offsetTop);
+
+
+        var offsetTop = $('#dialog_'+targetSid).height() - $('.msg-content:last').height() * 1.3;
+        $('#multiple_dialog_con').scrollTop(offsetTop);
     })
 
 //    $('#user_wrapper').live("click" ,function() {

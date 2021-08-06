@@ -26,6 +26,7 @@ div.user-dialog-wrapper li.active a {
     background: #0088cc;
     color: white;
 }
+
 div.user-dialog-wrapper li.active a:hover {
     background: #0088cc;
     color: white;
@@ -65,8 +66,8 @@ div.user-dialog-wrapper li.active a:hover {
     font-family: "宋体", "微软雅黑";
     font-size: 10px;
     border-radius: 5px;
-    word-wrap:break-word;
-    overflow:hidden;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .msg-content-r {
@@ -79,7 +80,7 @@ div.user-dialog-wrapper li.active a:hover {
     background: #F3F3F3;
     border: solid 1px #EAEAEA;
     float: left;
-    margin-left:8px;
+    margin-left: 8px;
 }
 
 .msg-arr {
@@ -116,23 +117,26 @@ div.user-dialog-wrapper li.active a:hover {
     width: 110px;
     height: 36px;
 }
+
 .dialog-wraper {
     width: 273px;
 }
 
 #multiple_dialog_con {
     background: #ffffff;
-    height:260px;
-   margin-bottom: 0px;
+    height: 260px;
+    margin-bottom: 0px;
     overflow: hidden;
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 #multiple_dialog_con .webim-wrapper {
-    display:none;
+    display: none;
 }
+
 #multiple_dialog_con .active {
-    display:block;
+    display: block;
 }
 
 #multiple_dialog_con .active .webim-wrapper {
@@ -140,7 +144,15 @@ div.user-dialog-wrapper li.active a:hover {
 }
 
 #submit_msg {
-    height:26px;
+    height: 26px;
     line-height: 15px;
     font-size: 10px;
+}
+
+#t2m_multi_dialog {
+    bottom: 0px;
+    right: 100px;
+    height: 372px;
+    width: 383px;
+    display:none;
 }

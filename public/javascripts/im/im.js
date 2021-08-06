@@ -33,9 +33,7 @@ function connect() {
                     $('#my_name').hide();
                 }
             } else if (jsonData.action == 'talk') {
-
-
-                talk2One(jsonData.fromSocketId ,  jsonData.fromSocketId) ;
+                talk2One(jsonData.fromSocketId ,  $('#'+jsonData.fromSocketId + ' a').html()) ;
 
                 $('#dialog_'+jsonData.fromSocketId).append('<div class="webim-dia-box"> '
                     + '<div class="msg-content msg-content-l">'
@@ -46,46 +44,10 @@ function connect() {
                     + '<div class="clearfix">'
                     +'</div>');
 
-                // TODO：滚动条位置待处理
-                var offsetTop = $('#multiple_dialog_con').height() - $('.msg-content:last').height() * 1.3;
-                $('#dialog_'+jsonData.fromSocketId).scrollTop(offsetTop);
 
-                /*
-                $('#' + jsonData.fromSocketId + " a").trigger("click", "trigger");
-
-                $('#diaglog_content_container').append('<div class="webim-dia-box"> '
-                    + '<div class="msg-content msg-content-l">'
-                    + jsonData.msgData
-                    + '</div>'
-                    + '<div class="msg-arr msg-arr-l"></div>'
-                    + '</div>'
-                    + '<div class="clearfix"></div>');
-
-                var offsetTop = $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3;
-                $('#dialog_content').scrollTop(offsetTop);
-                */
-                // TODO:修改为新消息加入到对应的窗口，并弹出对应的提示信息
-                //<span class='badge badge-info'>1</span>
-                 /*
-                var fromUserName = $("#"+jsonData.fromSocketId + " a").html();
-                var msg;
-                msg = $.globalMessenger().post({
-                    message: fromUserName ,
-                    type: 'info',
-                    showCloseButton: true,
-                    actions: {
-                        cancel: {
-                            label: 'cancel launch',
-                            action: function() {
-                              console.log('action...');
-                            }
-                        }
-                    }
-                });
-                */
+                var offsetTop = $('#dialog_'+jsonData.fromSocketId).height() - $('.msg-content:last').height() * 1.3;
+                $('#multiple_dialog_con').scrollTop(offsetTop);
             }
-
-//          message(data);
         });
         socket.on('connect', function () {
             updateStatus(STATUS_CODE_SUCCESS, "连接服务器成功！");
@@ -175,6 +137,8 @@ function editName(name) {
 }
 
 function talk2One(sid , userName) {
+
+    $('#t2m_multi_dialog').show();
 
     $('.active' , $('#multiple_user_con')).removeClass('active');
     $('.active' , $('#multiple_dialog_con')).removeClass('active');
