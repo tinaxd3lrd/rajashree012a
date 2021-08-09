@@ -1,5 +1,4 @@
-#talk to me 
-#IM工具
+#talk to me IM工具
 基于node.js+mongodb的在线即时聊天系统：
 
 主要中间件：

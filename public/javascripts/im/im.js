@@ -23,7 +23,7 @@ function connect() {
             var jsonData = JSON.parse(data);
             var userList = jsonData.onlineUsers;
 
-            console.log(jsonData);
+//            console.log(jsonData);
 
             if (userList) {
                 updateUserList(userList);
@@ -33,21 +33,21 @@ function connect() {
                     $('#my_name').hide();
                 }
             } else if (jsonData.action == 'talk') {
-                $('#' + jsonData.fromSocketId + " a").trigger("click");
+                talk2One(jsonData.fromSocketId ,  $('#'+jsonData.fromSocketId + ' a').html()) ;
 
-                $('#diaglog_content_container').append('<div class="webim-dia-box"> '
+                $('#dialog_'+jsonData.fromSocketId).append('<div class="webim-dia-box"> '
                     + '<div class="msg-content msg-content-l">'
                     + jsonData.msgData
                     + '</div>'
                     + '<div class="msg-arr msg-arr-l"></div>'
-                    + '</div>'
-                    + '<div class="clearfix"></div>');
+                   + '</div>'
+                    + '<div class="clearfix">'
+                    +'</div>');
 
-                var offsetTop =   $('#diaglog_content_container').height() - $('.msg-content:last').height() * 1.3 ;
-                $('#dialog_content').scrollTop(offsetTop);
+
+                var offsetTop = $('#dialog_'+jsonData.fromSocketId).height() - $('.msg-content:last').height() * 1.3;
+                $('#multiple_dialog_con').scrollTop(offsetTop);
             }
-
-//          message(data);
         });
         socket.on('connect', function () {
             updateStatus(STATUS_CODE_SUCCESS, "连接服务器成功！");
@@ -87,7 +87,11 @@ function updateUserList(userList) {
             var user = userList[i];
 
             if (socket.socket.sessionid != user.socketId) {
-                uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + "</a></li>";
+                uHtml += "<li id='" + user.socketId + "'class='user-li'><a href='javascript:void(0);'>" + user.name + " </a></li>";
+
+                if($('#header_'+user.socketId).length == 1) {
+                    $('#header_'+user.socketId).html('<a>'+user.name+'</a>');
+                }
             }
         }
         $('#user_wrapper').html(uHtml);
@@ -132,10 +136,58 @@ function editName(name) {
 //    send('{"editName":' + '"' + name +'"}');
 }
 
+function talk2One(sid , userName) {
+
+    $('#t2m_multi_dialog').show();
+
+    $('.active' , $('#multiple_user_con')).removeClass('active');
+    $('.active' , $('#multiple_dialog_con')).removeClass('active');
+
+    /*
+    * 左侧头像栏
+    * */
+    if($('#header_'+ sid).length == 1) {
+        $('#header_'+ sid).addClass("active");
+    }else {
+        $('#multiple_user_con').append('<li class="active" id="header_'+sid+'"><a>'+userName+'</a></li>');
+
+        // 左侧头像点击事件
+        $('#header_'+ sid).click(function() {
+            talk2One(sid ,userName ) ;
+        })
+    }
+
+    /*
+    * 右侧聊天内容栏
+    * */
+    if($('#dialog_'+ sid).length == 1) {
+        $('#dialog_'+ sid).addClass("active");
+    }else {
+        $('#multiple_dialog_con').append('<div id="dialog_'+sid+'" class="webim-wrapper active"></div>');
+    }
+
+ }
 
 function bindUserListEvent() {
 
-    $('#user_wrapper li a').click(function () {
+    $('#user_wrapper li a').click(function (e) {
+
+        var sid = $(this).parent('li').attr('id');
+        talk2One(sid , $(this).html());
+
+
+        if(true) {
+             return;
+        }
+
+        $('span',$(this)).remove();
+        if (e['isTrigger']) {
+          return;
+        }else {
+            //$('#diaglog_content_container').html("");
+
+
+        }
 
         $('#user_wrapper .active').removeClass("active");
 
